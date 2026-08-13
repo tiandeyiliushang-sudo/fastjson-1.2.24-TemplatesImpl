@@ -5,6 +5,8 @@
 
 漏洞成因：fastjson 1.2.24 @type是默认开启的
 
+复现环境：fastjson 1.2.24+jdk 1.8.0_331
+
 ```java
 
 package org.apache.maven.archetypes;
