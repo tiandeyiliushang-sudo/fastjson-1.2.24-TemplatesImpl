@@ -1,8 +1,9 @@
 
-
+##POC分析
 这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。
 
 
+漏洞成因：fastjson 1.2.24 @type是默认开启的
 
 ```java
 
@@ -593,3 +594,13 @@ public void setValue(Object object, Object value) {
                     method.invoke(object, value);
                 }
 ```
+
+##实际场景模拟 
+
+接下来进行一个贴近实际场景点的分析
+
+```java
+Object result = JSON.parseObject(requestBody,Feature.SupportNonPublicField);
+```
+
+这一句就是漏洞触发的根源，Feature.SupportNonPublicField是为了
