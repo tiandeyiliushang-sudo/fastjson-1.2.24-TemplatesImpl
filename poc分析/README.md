@@ -547,6 +547,7 @@ public void parseField(DefaultJSONParser parser, Object object, Type objectType,
 这里调试到_outputProperties 时，就会触发Map map = (Map)method.invoke(object);，进入TemplatesImpl链了。
 一定要结合xmind去看。
 
+![outputProperties 调试](https://raw.githubusercontent.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/main/poc%E5%88%86%E6%9E%90/_outputProperties%20%E8%B0%83%E8%AF%95.png)
 
 ```java
 
