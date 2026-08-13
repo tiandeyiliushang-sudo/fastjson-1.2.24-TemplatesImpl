@@ -1,11 +1,16 @@
 
 ## POC分析
+本文主要记录我第一次从源码和 Debug 角度分析 Java 反序列化漏洞的过程，我追踪了整个的数据流。
+
 这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。对整个链路的梳理在https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/fastjson.xmind  里，里面有调用类，方法以及解释
 
 
 漏洞成因：fastjson 1.2.24 @type是默认开启的
 
 复现环境：fastjson 1.2.24+jdk 1.8.0_331
+
+
+
 
 ```java
 
