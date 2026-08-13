@@ -1,6 +1,6 @@
 
 ## POC分析
-这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。
+这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。对整个链路的梳理在https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/fastjson.xmind  里，里面有调用类，方法以及解释
 
 
 漏洞成因：fastjson 1.2.24 @type是默认开启的
@@ -76,7 +76,7 @@ public class Main {
 
 ```
 
-对整个链路的梳理在https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/fastjson.xmind  里，里面有调用类，方法以及解释
+
 
 
 接下来一步步进行调试，接下来会以源码+注释的形式分析。
