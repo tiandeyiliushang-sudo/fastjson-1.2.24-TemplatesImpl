@@ -1,5 +1,5 @@
 
-##POC分析
+## POC分析
 这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。
 
 
@@ -595,12 +595,13 @@ public void setValue(Object object, Object value) {
                 }
 ```
 
-##实际场景模拟 
+## 实际场景模拟 
 
 接下来进行一个贴近实际场景点的分析
 
 ```java
 Object result = JSON.parseObject(requestBody,Feature.SupportNonPublicField);
+//开发者可能会因为1. 省去写 setter 的麻烦2.别人写的 jar 包里的类，字段是 private 的，没有 setter，而使用Feature.SupportNonPublicField
 ```
 
 这一句就是漏洞触发的根源，Feature.SupportNonPublicField是为了修改 private _bytecodes的，TemplatesImpl本身就没setter，所以想用修改_bytecodes，就只能寄希望于Feature.SupportNonPubl
