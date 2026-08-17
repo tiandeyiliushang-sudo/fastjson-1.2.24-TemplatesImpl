@@ -117,15 +117,9 @@ public class Main {
             }
 
 
-         //这个地方是初始化解析器域要解析的json(input)，为接下来做准备
+         //这个地方是初始化解析器域要解析的json(input)
          //这里使用默认词法分析将前面传入的 text1  JSON 字符串拆成一个个 token，这时@type 只是一个普通的字符串 key，没有特殊含义
             DefaultJSONParser parser = new DefaultJSONParser(input, config, featureValues);
-| 缺少的条件                                         | 结果                |
-| --------------------------------------------- 	| ----------------- |
-| 缺少 `config` 白名单                               | `@type` 被拦截       |
-| 缺少 `featureValues` 中的 `SupportNonPublicField`  | `_bytecodes` 无法赋值 |
-| 两者都具备                                         | 漏洞触发              |
-
          
          
          //processor漏洞利用时设置的都为null，不用管这段
