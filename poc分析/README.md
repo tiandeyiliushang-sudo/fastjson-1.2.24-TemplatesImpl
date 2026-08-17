@@ -8,14 +8,40 @@
 漏洞成因：fastjson 1.2.24 @type是默认开启的
 复现环境：fastjson 1.2.24+jdk 1.8.0_331
 
-分析目标：
-
+## 分析目标：
 本文基于 fastjson 1.2.24 + JDK 1.8.0_331，
 通过源码调试分析特定反序列化调用方式下，
 恶意 JSON 如何使 TemplatesImpl 的关键字段被赋值，
 并最终进入 TemplatesImpl 利用链。
 
+## 整体调用链
+```text
+JSON.parseObject
+    ↓
+DefaultJSONParser.parseObject
+    ↓
+JavaObjectDeserializer.deserialze
+    ↓
+DefaultJSONParser.parse
+    ↓
+DefaultJSONParser.parseObject(Map)  获取com.sun...TemplatesImpl的专属反序列化器
+    ↓
+JavaBeanDeserializer.deserialze     进入由 _outputProperties引发的复杂类型的反序列化处理
+    ↓
+JavaBeanDeserializer.parseField
+    ↓
+DefaultFieldDeserializer.parseField
+    ↓
+FieldDeserializer.setValue
+    ↓
+method.invoke(object)
+    ↓
+getOutputProperties()
+    ↓
+进入 TemplatesImpl 后续调用链
+```
 
+## fastjson 反序列化源码分析
 
 ```java
 
