@@ -632,7 +632,6 @@ Object result = JSON.parseObject(requestBody,Feature.SupportNonPublicField);
 这一句就是漏洞触发的根源，从这里进入fastjson的调用链，随即进入TemplatesImpl链。
 
 这里面Feature.SupportNonPublicField是必要的参数，它是为了修改 private _bytecodes的，TemplatesImpl本身就没setter，所以想用修改_bytecodes，就只能寄希望于Feature.SupportNonPubl
-
 icField. _bytecodes 是字节码，字节码最后反序列化为jvm中的恶意类，加载恶意类时触发static代码块，实现rce
 
 ```text
