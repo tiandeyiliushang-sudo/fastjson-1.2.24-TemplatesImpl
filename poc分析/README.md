@@ -122,7 +122,7 @@ public class Main {
 ```java
  public static <T> T parseObject(String input, Type clazz, ParserConfig config, ParseProcess processor, int featureValues, Feature... features) {
         //int featureValues 的是DEFAULT_PARSER_FEATURE 默认基础设置 989即为 0011 1101 1101，这个是利用二进制串来控制FastJSON 解析器的各种行为开关。
-        //config哪些类可以被 @type 指定，config.addAccept("com.sun"); config.addDeny("java.lang.Thread");     // 黑名单
+       
 
 
 
@@ -135,7 +135,7 @@ public class Main {
             return null;
         } else {
             if (features != null) {
-                Feature[] var6 = features;	//这个features: Feature[1]，其实就只有Feature.SupportNonPublicField一个元素
+                Feature[] var6 = features;	
                 int var7 = features.length;//var7=1
 
                 for(int var8 = 0; var8 < var7; ++var8) {
