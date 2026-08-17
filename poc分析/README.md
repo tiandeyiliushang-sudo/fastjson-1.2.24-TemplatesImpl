@@ -6,9 +6,14 @@
 
 
 漏洞成因：fastjson 1.2.24 @type是默认开启的
-
 复现环境：fastjson 1.2.24+jdk 1.8.0_331
 
+分析目标：
+
+本文基于 fastjson 1.2.24 + JDK 1.8.0_331，
+通过源码调试分析特定反序列化调用方式下，
+恶意 JSON 如何使 TemplatesImpl 的关键字段被赋值，
+并最终进入 TemplatesImpl 利用链。
 
 
 
@@ -579,7 +584,7 @@ public void setValue(Object object, Object value) {
                         
                         // Properties 继承 Hashtable 继承 Map，所以走这里！
                     } else if (Map.class.isAssignableFrom(method.getReturnType())) {
-                        //真正的爆发点，这一步过后计算机将弹出
+                        //这一步过后计算机将弹出
                         //接下来将进入TemplatesImpl.getOutputProperties()，触发TemplatesImpl 链
                         Map map = (Map)method.invoke(object);
                         if (map != null) {
