@@ -112,8 +112,6 @@ public class Main {
 
 ```java
  public static <T> T parseObject(String input, Type clazz, ParserConfig config, ParseProcess processor, int featureValues, Feature... features) {
-        //Feature... features等价于Feature[] features 是数组
-        //featureValues管：解析行为的各种开关
         //int featureValues 的是DEFAULT_PARSER_FEATURE 默认基础设置 989即为 0011 1101 1101，这个是利用二进制串来控制FastJSON 解析器的各种行为开关。
         //config哪些类可以被 @type 指定，config.addAccept("com.sun"); config.addDeny("java.lang.Thread");     // 黑名单
 
@@ -248,7 +246,6 @@ public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
         //2. 来到这里，进入更深一层的调用链
         else {
             return type instanceof Class && type != Object.class && type != Serializable.class ? parser.parseObject(type) : parser.parse(fieldName);
-        //三元运算符
         //type所属类型是类而且是普通类,所以先走通用解析
         //parseObject() 是"按指定类型解析"，parse() 是"先通用解析，遇到 @type 再切换
         //这里parser.parse(fieldName) fieldName是null ，让 FastJSON 自己从 JSON 内容里找@type判断该怎么解析
@@ -372,9 +369,8 @@ public Object parse(Object fieldName) {
 ```java
 
 public final Object parseObject(Map object, Object fieldName) {
-            。
-            。
-            。
+
+            ...
             ch = lexer.getCurrent();
             lexer.resetStringPosition();
             Object obj;
@@ -442,9 +438,7 @@ public final Object parseObject(Map object, Object fieldName) {
 
 ```java
 protected <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, Object object, int features) {
-    。
-    。
-    。
+    ...
      else {
         //这一个类中是，读parser   JSON 字段值 → 准备赋值给 TemplatesImpl 的字段,把 parser 读到的数据反序列化到 TemplatesImpl实例中，逐字段赋值，最终触发漏洞,
         //在这里还是一个个都遍历了，遍历到 _outputProperties 这里的
