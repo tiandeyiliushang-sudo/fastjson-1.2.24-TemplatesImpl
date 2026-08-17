@@ -1,9 +1,11 @@
 
-## POC分析
+
 本文主要记录我第一次从源码和 Debug 角度分析 Java 反序列化漏洞的过程，我追踪了整个的数据流。
 
 这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。对整个链路的梳理在https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/fastjson.xmind  里，里面有调用类，方法以及解释
 
+
+## POC分析
 
 漏洞成因：FastJSON 1.2.24 默认开启 autoType，允许 JSON 中的 @type 字段指定任意类进行反序列化
 
