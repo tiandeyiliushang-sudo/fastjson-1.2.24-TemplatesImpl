@@ -5,8 +5,15 @@
 这里先给出一个POC，先基于这个进行分析，之后再用一个demo模拟业务场景。对整个链路的梳理在https://github.com/tiandeyiliushang-sudo/fastjson-1.2.24-TemplatesImpl/blob/main/poc%E5%88%86%E6%9E%90/fastjson.xmind  里，里面有调用类，方法以及解释
 
 
-漏洞成因：fastjson 1.2.24 @type是默认开启的
+漏洞成因：FastJSON 1.2.24 默认开启 autoType，允许 JSON 中的 @type 字段指定任意类进行反序列化
+
+利用条件：开发者使用了 Feature.SupportNonPublicField（允许反射写入 private 字段）,目标 JDK 版本 ≤ 8
+            
 复现环境：fastjson 1.2.24+jdk 1.8.0_331
+
+关键触发点：_outputProperties 字段的 getter (getOutputProperties()) 在 setValue 时被反射调用，触发 defineClass 加载恶意字节码
+
+修复方式：升级 FastJSON 至安全版本，或通过 ParserConfig 全局禁用 autoType
 
 ## 分析目标：
 本文基于 fastjson 1.2.24 + JDK 1.8.0_331，
